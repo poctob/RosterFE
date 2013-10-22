@@ -12,7 +12,7 @@
             if (mysqli_connect_errno($connector)) {
                     die( mysqli_connect_error());
             }
-            $sql = "SELECT employee, start, end FROM " . $table_name;
+            $sql = "SELECT employee, position, start, end FROM " . $table_name;
             $result = mysqli_query($connector, $sql);
             $data = array();
             while ($row = mysqli_fetch_array($result)) {
@@ -21,6 +21,7 @@
                 $start_array=getdate($php_date_start);
                 $end_array=getdate($php_date_end);
                 $event = array('title' => $row['employee'].
+                    ' - '.$row['position'].
                     ' '.convertHoursTo12($start_array['hours']).
                     '-'.convertHoursTo12($end_array['hours']),
                     'start' => $row['start'],
