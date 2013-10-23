@@ -22,8 +22,8 @@
                 $end_array=getdate($php_date_end);
                 $event = array('title' => $row['employee'].
                     ' - '.$row['position'].
-                    ' '.convertHoursTo12($start_array['hours']).
-                    '-'.convertHoursTo12($end_array['hours']),
+                    ' '.convertHoursTo12($start_array['hours'], $start_array['minutes']).                   
+                    '-'.convertHoursTo12($end_array['hours'],$start_array['minutes']),
                     'start' => $row['start'],
                     'end' => $row['end']);
                 $data[] = $event;
@@ -31,12 +31,16 @@
             return json_encode($data);
         }
         
-        function convertHoursTo12($hour)
+        function convertHoursTo12($hour, $minute)
         {
+            if(isset($minute) && strlen($minute)==1)
+            {
+                $minute="0".$minute;
+            }
             if($hour>12)
             {
-                return ($hour-12).' p.m.';
+                return ($hour-12).':'.$minute.' p.m.';
             }
-            return ($hour).' a.m.';
+            return ($hour).':'.$minute.' a.m.';
         }
 ?>
