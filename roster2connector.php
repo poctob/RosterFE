@@ -1,5 +1,9 @@
 <?php
-
+if($_SERVER["HTTPS"] != "on")
+{
+    header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
+    exit();
+}
 // Create connection
 $error = "";
 $connector = "";
@@ -49,7 +53,12 @@ function purge($table_name) {
 function insert($table_name, $json) {
     global $error, $connector;
     echo ".... Inserting data ....";
-    $rows = json_decode($json, true);
+    if(get_magic_quotes_gpc()){
+    $data = stripslashes($json);
+    }else{
+    $data = $json;
+    }
+    $rows = json_decode($data, true);
     foreach ($rows as $row) {
         $sql = "INSERT INTO " . $table_name . " (employee, position, start, end) " .
                 "VALUES 
