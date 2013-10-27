@@ -37,7 +37,11 @@
             {
                 $minute="0".$minute;
             }
-            if($hour>12)
+            if($hour==12)
+            {
+                return ($hour).':'.$minute.' p.m.';
+            }
+            else if($hour>12)
             {
                 return ($hour-12).':'.$minute.' p.m.';
             }
